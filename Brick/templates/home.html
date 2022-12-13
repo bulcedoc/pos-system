@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    {% load static %}
+    <script src="{% static '/test.js' %}"></script>
+    <script src="{% static '/see.js' %}"></script>
+    
+    <style>
+        #m1{
+            background-color: aquamarine;
+            height: 100px;
+            text-align: center;
+            padding: 25px;
+            border: 2px solid rgb(0, 0, 0);
+            
+        }
+        #m2{
+            background-color: rgb(253, 255, 138);
+            display: flex;
+            padding: 25px;
+            overflow: scroll;
+            border: 2px solid rgb(0, 0, 0);
+            
+        }
+        #m3,#co{
+           background-color: aliceblue;
+           padding: 5px;
+           font-size: larger;
+           border: 3px solid rgb(0, 0, 0);
+           margin: 10px;
+           cursor: cell;
+           display: flex;
+           font-size: 20px;
+           align-items: center;
+           text-align: center;
+        }
+        #nu{
+            width: 50px;
+            height: 40px;
+            font-weight: bolder;
+            font-size: 20px;
+            margin-left: 50px;
+        
+            
+        }
+        #de{
+        
+            background-color: rgb(255, 255, 255);
+            font-weight: bolder;
+            font-size: 20px;
+            margin-left: 50px;
+            color: rgb(255, 0, 0);
+            border-radius: 50px;
+            height: 40px;
+        }
+        #m4{
+            background-color: aliceblue;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div id = "m1">
+    <h1>RESTARANT NAME</h1>
+    </div>
+    <div id="m2">
+        {% for product in products %}
+        <div id="m3" onclick="selco(this)">{{product.p_name}}</div>
+        {% endfor %}
+    </div>
+        <div id="cart">
+            
+        </div>
+        <input id="co" type="button" value="check" onclick="check(cart)">
+        <input id="co" type="submit">
+
+    </form>
+   <button id = "but" onclick="jq();">click</button>
+   <script>
+    function selco(element)
+{ 
+    c = element.innerHTML
+    let d = document.getElementById('cart')
+    ch = document.createElement('div')
+    ch.innerHTML = '<div id ="m4" ><h2 class="names">'+c+'</h2><input type="number" id="nu" value="1" min="1" class="chim"><button id="de" onclick="delo(this)">Remove</button></div>'
+    d.appendChild(ch)
+    element.style.display = "none"
+         }
+function delo(delement)
+{
+    let dt = document.getElementById('m2')
+    let t = delement.previousSibling.previousSibling.innerHTML
+    ct = document.createElement('div')
+    ct.innerHTML = '<div id="m3" onclick="selco(this)">'+t+'</div>'
+    dt.prepend(ct)
+    delement.parentElement.remove()
+    
+    
+}
+
+
+
+    function check(){
+     var pro = document.getElementsByClassName("names")
+     var prot = document.getElementsByClassName("chim")
+     var prod = []
+     var quan = []
+      for ( var i=0 ; i<pro.length; i++)
+                  {
+                    prod.push(pro[i].textContent)
+                    quan.push(prot[i].value)
+                  }
+                let p = prod.toString()
+                let q = quan.toString()
+                jQuery.ajax({
+                    url:'see/',
+                    type: 'POST',
+                    data: {'p': p, 'q':q},
+                    dataType: 'json',
+                    success: function(data){
+                        alert("doen")
+                    },
+            
+                });
+               
+            window.location.href = "che/"
+            }
+    
+            
+   </script>
+</body>
+</html>
